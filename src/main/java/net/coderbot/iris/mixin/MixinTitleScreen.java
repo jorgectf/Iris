@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.AlertScreen;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.PopupScreen;
@@ -62,6 +63,7 @@ public class MixinTitleScreen extends Screen {
 			return;
 		} else {
 			Iris.onLoadingComplete();
+			this.minecraft.getToasts().addToast(new SystemToast(SystemToast.SystemToastIds.PERIODIC_NOTIFICATION, Component.literal("The version of Iris in use is outdated."), Component.literal("Please reinstall Iris from irisshaders.net.")));
 
 			return;
 		}
@@ -86,5 +88,6 @@ public class MixinTitleScreen extends Screen {
 				Component.translatable(reason),
 				Component.translatable("iris.sodium.failure.download"),
 				FabricLoader.getInstance().isDevelopmentEnvironment() ? Component.literal("Continue (Development)") : Component.translatable("menu.quit")));
+
 	}
 }

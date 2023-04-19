@@ -38,8 +38,7 @@ public class MixinGui {
 	// TODO: Move this to a more appropriate mixin
 	@Inject(method = "render", at = @At("RETURN"))
 	public void iris$displayBigSodiumWarning(PoseStack poseStack, float tickDelta, CallbackInfo ci) {
-		if (Iris.isSodiumInstalled()
-				|| Minecraft.getInstance().options.renderDebug
+		if (Minecraft.getInstance().options.renderDebug
 				|| !Iris.getCurrentPack().isPresent()) {
 			return;
 		}
@@ -47,8 +46,8 @@ public class MixinGui {
 		Font font = Minecraft.getInstance().font;
 
 		List<String> warningLines = new ArrayList<>();
-		warningLines.add("[" + Iris.MODNAME + "] Sodium isn't installed; you will have poor performance.");
-		warningLines.add("[" + Iris.MODNAME + "] Install Sodium if you want to run benchmarks or get higher FPS!");
+		warningLines.add("[" + Iris.MODNAME + "] The version of Iris in use may be outdated.");
+		warningLines.add("[" + Iris.MODNAME + "] Please install Iris from irisshaders.net or Modrinth.");
 
 		for (int i = 0; i < warningLines.size(); ++i) {
 			String string = warningLines.get(i);

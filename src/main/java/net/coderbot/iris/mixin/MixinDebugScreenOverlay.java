@@ -66,9 +66,9 @@ public abstract class MixinDebugScreenOverlay {
 	private void iris$appendShadowDebugText(CallbackInfoReturnable<List<String>> cir) {
 		List<String> messages = cir.getReturnValue();
 
-		if (!Iris.isSodiumInstalled() && Iris.getCurrentPack().isPresent()) {
-			messages.add(1, ChatFormatting.YELLOW + "[" + Iris.MODNAME + "] Sodium isn't installed; you will have poor performance.");
-			messages.add(2, ChatFormatting.YELLOW + "[" + Iris.MODNAME + "] Install Sodium if you want to run benchmarks or get higher FPS!");
+		if (Iris.getCurrentPack().isPresent()) {
+			messages.add(1, "[" + Iris.MODNAME + "] The version of Iris in use is outdated.");
+			messages.add(2, "[" + Iris.MODNAME + "] Please install Iris from irisshaders.net or Modrinth.");
 		}
 
 		Iris.getPipelineManager().getPipeline().ifPresent(pipeline -> pipeline.addDebugText(messages));
