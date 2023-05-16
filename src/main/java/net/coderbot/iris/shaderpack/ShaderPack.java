@@ -77,6 +77,7 @@ public class ShaderPack {
 	private final String profileInfo;
 	private final List<ImageInformation> irisCustomImages;
 	private final Set<FeatureFlags> activeFeatures;
+	private final Path root;
 
 	public ShaderPack(Path root, Iterable<StringPair> environmentDefines) throws IOException, IllegalStateException {
 		this(root, Collections.emptyMap(), environmentDefines);
@@ -95,6 +96,7 @@ public class ShaderPack {
 	public ShaderPack(Path root, Map<String, String> changedConfigs, Iterable<StringPair> environmentDefines) throws IOException, IllegalStateException {
 		// A null path is not allowed.
 		Objects.requireNonNull(root);
+		this.root = root;
 
 
 		ImmutableList.Builder<AbsolutePackPath> starts = ImmutableList.builder();
@@ -454,6 +456,10 @@ public class ShaderPack {
 
 	public EnumMap<TextureStage, Object2ObjectMap<String, CustomTextureData>> getCustomTextureDataMap() {
 		return customTextureDataMap;
+	}
+
+	public Path getRoot() {
+		return root;
 	}
 
 	public List<ImageInformation> getIrisCustomImages() {

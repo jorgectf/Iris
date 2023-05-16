@@ -2,6 +2,8 @@ package net.coderbot.iris.shaderpack;
 
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.ints.IntObjectPair;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -40,7 +42,7 @@ public class PackDirectives {
 	private Object2ObjectMap<String, Object2BooleanMap<String>> explicitFlips = new Object2ObjectOpenHashMap<>();
 	private Object2ObjectMap<String, TextureScaleOverride> scaleOverrides = new Object2ObjectOpenHashMap<>();
 	private Object2ObjectMap<Tri<String, TextureType, TextureStage>, String> textureMap;
-	private Int2IntArrayMap bufferObjects;
+	private Int2ObjectArrayMap<IntObjectPair<Optional<String>>> bufferObjects;
 
 	private final PackRenderTargetDirectives renderTargetDirectives;
 	private final PackShadowDirectives shadowDirectives;
@@ -54,7 +56,7 @@ public class PackDirectives {
 		drynessHalfLife = 200.0f;
 		eyeBrightnessHalfLife = 10.0f;
 		centerDepthHalfLife = 1.0F;
-		bufferObjects = new Int2IntArrayMap();
+		bufferObjects = new Int2ObjectArrayMap<>();
 		renderTargetDirectives = new PackRenderTargetDirectives(supportedRenderTargets);
 		shadowDirectives = packShadowDirectives;
 	}
@@ -192,7 +194,7 @@ public class PackDirectives {
 		return shadowDirectives;
 	}
 
-	public Int2IntArrayMap getBufferObjects() {
+	public Int2ObjectArrayMap<IntObjectPair<Optional<String>>> getBufferObjects() {
 		return bufferObjects;
 	}
 

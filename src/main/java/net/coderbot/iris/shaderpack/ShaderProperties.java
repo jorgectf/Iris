@@ -2,6 +2,8 @@ package net.coderbot.iris.shaderpack;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.ints.IntObjectPair;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
@@ -95,7 +97,7 @@ public class ShaderProperties {
 	private final Object2ObjectMap<Tri<String, TextureType, TextureStage>, String> customTexturePatching = new Object2ObjectOpenHashMap<>();
 	private final Object2ObjectMap<String, TextureDefinition> irisCustomTextures = new Object2ObjectOpenHashMap<>();
 	private final List<ImageInformation> irisCustomImages = new ArrayList<>();
-	private final Int2IntArrayMap bufferObjects = new Int2IntArrayMap();
+	private final Int2ObjectArrayMap<IntObjectPair<Optional<String>>> bufferObjects = new Int2ObjectArrayMap<>();
 	private final Object2ObjectMap<String, Object2BooleanMap<String>> explicitFlips = new Object2ObjectOpenHashMap<>();
 	private String noiseTexturePath = null;
 	CustomUniforms.Builder customUniforms = new CustomUniforms.Builder();
@@ -310,9 +312,10 @@ public class ShaderProperties {
 			handlePassDirective("bufferObject.", key, value, index -> {
 				int trueIndex;
 				int trueSize;
+				String[] value2 = value.trim().split(" ");
 				try {
 					trueIndex = Integer.parseInt(index);
-					trueSize = Integer.parseInt(value);
+					trueSize = Integer.parseInt(value2[0]);
 				} catch (NumberFormatException e) {
 					Iris.logger.error("Number format exception parsing SSBO index/size!", e);
 					return;
@@ -322,8 +325,13 @@ public class ShaderProperties {
 					Iris.logger.fatal("SSBO's cannot use buffer numbers higher than 8, they're reserved!");
 					return;
 				}
+				Optional<String> optionalInfo = Optional.empty();
 
-				bufferObjects.put(trueIndex, trueSize);
+				if (value2.length > 1) {
+					optionalInfo = Optional.of(value2[1]);
+				}
+
+				bufferObjects.put(trueIndex, IntObjectPair.of(trueSize, optionalInfo));
 			});
 
 			handleTwoArgDirective("texture.", key, value, (stageName, samplerName) -> {
@@ -760,7 +768,7 @@ public class ShaderProperties {
 		return bufferBlendOverrides;
 	}
 
-	public Int2IntArrayMap getBufferObjects() {
+	public Int2ObjectArrayMap<IntObjectPair<Optional<String>>> getBufferObjects() {
 		return bufferObjects;
 	}
 

@@ -270,7 +270,8 @@ public class NewWorldRenderingPipeline implements WorldRenderingPipeline, CoreWo
 
 		if (!programSet.getPackDirectives().getBufferObjects().isEmpty()) {
 			if (IrisRenderSystem.supportsSSBO()) {
-				this.shaderStorageBufferHolder = new ShaderStorageBufferHolder(programSet.getPackDirectives().getBufferObjects());
+				this.shaderStorageBufferHolder = new ShaderStorageBufferHolder(programSet.getPack().getRoot(), programSet.getPackDirectives().getBufferObjects());
+
 
 				this.shaderStorageBufferHolder.setupBuffers();
 			} else {

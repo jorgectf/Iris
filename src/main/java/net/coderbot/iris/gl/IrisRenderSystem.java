@@ -410,7 +410,11 @@ public class IrisRenderSystem {
 		GL43C.glDeleteBuffers(glId);
     }
 
-    public interface DSAAccess {
+	public static void bufferSubData(int target, long offset, ByteBuffer data) {
+		GL45C.glBufferSubData(target, offset, data);
+	}
+
+	public interface DSAAccess {
 		void generateMipmaps(int texture, int target);
 
 		void texParameteri(int texture, int target, int pname, int param);
